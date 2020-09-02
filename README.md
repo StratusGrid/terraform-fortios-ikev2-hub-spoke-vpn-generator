@@ -49,10 +49,11 @@ resource "fortios_router_ospf" "global" {
     content {
       name           = ospf_interface.key
       interface      = ospf_interface.key
-      cost           = 12
+      cost           = 10
       dead_interval  = 40
       hello_interval = 10
       network_type   = "point-to-point"
+      mtu            = 1420
     }
   }
 
