@@ -54,7 +54,6 @@ resource "fortios_system_interface" "this" {
   tcp_mss     = 1400
 
   depends_on = [
-    fortios_vpnipsec_phase1interface.this,
-    fortios_vpnipsec_phase2interface.this,
+    fortios_vpnipsec_phase1interface.this
   ]
 }
