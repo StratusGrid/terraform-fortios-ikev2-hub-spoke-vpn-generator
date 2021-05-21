@@ -21,3 +21,9 @@ variable "vpn_mappings" {
     })
   }))
 }
+
+variable "create_system_interfaces" {
+  description = "A boolean to specify if a system interface should be explicitly created for IPsec site-to-site VPN. As of FortiOS 7.0.0, a valid system interface is created automatically when a phase1 interface is created."
+  type = bool
+  default = false
+}

@@ -10,6 +10,10 @@ locals {
     hub   = "spoke"
     spoke = "hub"
   }
+  # if create_system_interfaces is set to true then return vpn_mappings. Otherwise, return empty map.
+  system_interfaces = {
+    var.create_system_interfaces = true ? var.vpn_mappings : {}
+  }
 }
 
 resource "fortios_vpnipsec_phase1interface" "this" {
@@ -42,7 +46,7 @@ resource "fortios_vpnipsec_phase2interface" "this" {
 }
 
 resource "fortios_system_interface" "this" {
-  for_each = var.vpn_mappings
+  for_each  = local.system_interfaces
 
   name        = each.value.tunnel_name
   description = each.value.tunnel_name
@@ -52,4 +56,10 @@ resource "fortios_system_interface" "this" {
   ip          = lookup(each.value.tunnel_ip, lookup(local.local_selector, var.hub_or_spoke, null), null)
   remote_ip   = lookup(each.value.tunnel_ip, lookup(local.remote_selector, var.hub_or_spoke, null), null)
   tcp_mss     = 1400
+}
+
+data "fortios_system_interface" "this" {
+  for_each = var.create_system_interfaces == false ? fortios_vpnipsec_phase1interface.this : {}
+
+  filter = "name=${each.key.name}"
 }
