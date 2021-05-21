@@ -52,8 +52,4 @@ resource "fortios_system_interface" "this" {
   ip          = lookup(each.value.tunnel_ip, lookup(local.local_selector, var.hub_or_spoke, null), null)
   remote_ip   = lookup(each.value.tunnel_ip, lookup(local.remote_selector, var.hub_or_spoke, null), null)
   tcp_mss     = 1400
-
-  depends_on = [
-    fortios_vpnipsec_phase1interface.this
-  ]
 }
