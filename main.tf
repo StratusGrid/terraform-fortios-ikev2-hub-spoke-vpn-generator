@@ -11,7 +11,7 @@ locals {
     spoke = "hub"
   }
   # if create_system_interfaces is set to true then return vpn_mappings. Otherwise, return empty map.
-  system_interfaces = var.create_system_interfaces = true ? var.vpn_mappings : {}
+  system_interfaces = var.create_system_interfaces == true ? var.vpn_mappings : {}
 }
 
 resource "fortios_vpnipsec_phase1interface" "this" {
