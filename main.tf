@@ -11,9 +11,7 @@ locals {
     spoke = "hub"
   }
   # if create_system_interfaces is set to true then return vpn_mappings. Otherwise, return empty map.
-  system_interfaces = {
-    var.create_system_interfaces = true ? var.vpn_mappings : {}
-  }
+  system_interfaces = var.create_system_interfaces = true ? var.vpn_mappings : {}
 }
 
 resource "fortios_vpnipsec_phase1interface" "this" {
@@ -61,5 +59,5 @@ resource "fortios_system_interface" "this" {
 data "fortios_system_interface" "this" {
   for_each = var.create_system_interfaces == false ? fortios_vpnipsec_phase1interface.this : {}
 
-  filter = "name=${each.key.name}"
+  name = each.value.name
 }
