@@ -5,3 +5,11 @@ output "local_tunnel_ips" {
     interface.name => interface.ip
   }
 }
+
+output "local_tunnel_interfaces" {
+  description = "A map of the tunnel interface names to add to firewall policies."
+  value = {
+    for interface in fortios_vpnipsec_phase1interface.this :
+    interface.interface => interface.local_gw
+  }
+}
